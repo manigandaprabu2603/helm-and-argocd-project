@@ -1,0 +1,20 @@
+deployment:
+  enabled: true
+
+fullnameOverride: ""
+
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.27.3"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+
+resources: {}
