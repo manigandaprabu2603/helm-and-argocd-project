@@ -6,4 +6,4 @@ version: 0.1.0
 dependencies:
   - name: parent
     version: 0.1.0
-    repository: oci://registry-1.docker.io/prabhu2603
+    repository: oci://registry-1.docker.io/YOUR_DOCKERHUB_USERNAME

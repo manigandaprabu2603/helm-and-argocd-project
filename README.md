@@ -68,8 +68,8 @@ $encoded = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=
 
 Do this in the Argo CD UI before applying the Application. The Git repository and OCI Helm chart use separate credentials:
 
-- **Private Git repository:** Open **Settings > Repositories** and connect the Git URL using a read-only Git token, GitHub App, or SSH deploy key. Argo CD uses this credential to clone `repoURL`.
-- **Private parent chart in Docker Hub:** Configure OCI credentials for `registry-1.docker.io/YOUR_DOCKERHUB_USERNAME` under **Settings > Repositories**. Argo CD's repo-server uses them to pull the chart dependency. Public charts need no credentials.
+- **Private Git repository:** Open **Settings > Repositories** and connect the Git URL using a read-only Git token with type `git`. Argo CD uses this credential to clone `repoURL`.
+- **Private parent chart in Docker Hub:** Configure OCI credentials for `registry-1.docker.io/YOUR_DOCKERHUB_USERNAME` under **Settings > Repositories** with type `helm` and `Enable OCI` checkbox ticked. Argo CD's repo-server uses them to pull the chart dependency. Public charts need no credentials.
 
 If both the Git repository and parent chart are public, skip this step.
 
@@ -90,7 +90,7 @@ Argo CD tracks `HEAD`, reads `charts/child`, and deploys the parent chart's reso
 The child enables the Service, so forward the Service port to your machine:
 
 ```powershell
-kubectl port-forward svc/demo-app-parent -n demo-app 8081:80
+kubectl port-forward svc/nginx-app -n demo-app 8081:80
 ```
 
 Visit <http://localhost:8081>. Change values in `charts/child/values.yaml` to configure the parent chart. To change the chart templates, edit `charts/parent`, publish a new parent chart version, update the dependency version in `charts/child/Chart.yaml`, and push the Git changes. Argo CD will reconcile the changes from Git.
